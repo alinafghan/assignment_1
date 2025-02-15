@@ -11,20 +11,17 @@ class Screen extends StatefulWidget {
 }
 
 class _ScreenState extends State<Screen> with TickerProviderStateMixin {
-  late final TabController _tabController;
   late final PageController _pageController;
   int _currentPageIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
     _pageController = PageController();
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     _pageController.dispose();
     super.dispose();
   }
@@ -32,18 +29,28 @@ class _ScreenState extends State<Screen> with TickerProviderStateMixin {
   final List<Map<String, String>> comments = [
     {
       'title': 'Flutter Flash',
-      'subtitle': 'Looks like an amazing event!',
+      'subtitle': '"Looks like an amazing event!"',
       'datetime': '30 November 2024, 11:00 PM',
     },
     {
       'title': 'Bob’s annual BBQ',
-      'subtitle': 'Wish I could’ve been there:(',
+      'subtitle': '"Wish I could’ve been there:("',
       'datetime': '2 August 2024, 10:31 PM',
     },
     {
       'title': 'Networking Lounge',
-      'subtitle': 'Will the event be starting on time?',
+      'subtitle': '"Will the event be starting on time?"',
       'datetime': '25 June 2023, 12:00 AM',
+    },
+    {
+      'title': 'Other Lounge',
+      'subtitle': '"Will the event be starting on time?"',
+      'datetime': '25 June 2023, 12:00 AM',
+    },
+    {
+      'title': 'Google Groups CompVis BC',
+      'subtitle': '"Excited to learn!"',
+      'datetime': '18 Feb 2025, 12:00 AM',
     },
   ];
 
@@ -66,6 +73,18 @@ class _ScreenState extends State<Screen> with TickerProviderStateMixin {
       'datetime': '30th November 2024, 9:00 am',
       'name': 'John Doe'
     },
+    {
+      "title": "Tech Innovators Summit",
+      "address": "45 Downtown",
+      "datetime": "15th December 2024, 2:00 pm",
+      "name": "Alice Smith"
+    },
+    {
+      "title": "Mastery Workshop",
+      "address": "100th Floor, Business Tower",
+      "datetime": "5th January 2025, 10:30 am",
+      "name": "Alina Afghan"
+    }
   ];
 
   final List<Map<String, String>> stats = [
@@ -98,10 +117,22 @@ class _ScreenState extends State<Screen> with TickerProviderStateMixin {
                 left: (size.width / 2) - profileRadius,
                 child: Column(
                   children: [
-                    CircleAvatar(
-                      radius: profileRadius,
-                      backgroundColor: Colors.white,
-                      backgroundImage: AssetImage('assets/profile.jpg'),
+                    Container(
+                      width: 2 * profileRadius,
+                      height: 2 * profileRadius,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 7, 7,
+                              7), // Change this to your desired border color
+                          width: 2.0, // Set the border width
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        radius: profileRadius,
+                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                        backgroundImage: AssetImage('assets/profile.jpg'),
+                      ),
                     ),
                     Text(
                       'John Doe',
@@ -179,17 +210,19 @@ class _ScreenState extends State<Screen> with TickerProviderStateMixin {
             onPageChanged: _updateCurrentPageIndex,
             controller: _pageController,
             children: <Widget>[
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    for (var i in posts)
-                      MyCard(
-                          title: i['title'],
-                          datetime: i['datetime'],
-                          address: i['address'],
-                          name: i['name']),
-                  ],
-                ),
+              ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: posts.length,
+                itemBuilder: (context, index) {
+                  var post = posts[index];
+                  return MyCard(
+                    title: post['title'],
+                    datetime: post['datetime'],
+                    address: post['address'],
+                    name: post['name'],
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 24.0),
@@ -229,18 +262,13 @@ class _ScreenState extends State<Screen> with TickerProviderStateMixin {
     setState(() {
       _currentPageIndex = index;
     });
-    _tabController.index = index;
     _pageController.jumpToPage(
       index,
-      // duration: const Duration(milliseconds: 100),
-      // curve: Curves.easeInOut,
     );
   }
 }
 
 class CustomAppBarShape extends OutlinedBorder {
-  // Implementing the constructor allows the CustomAppBarShape to be
-  // properly compared when calling the `identical` method.
   const CustomAppBarShape({super.side});
 
   Path _getPath(Rect rect) {
@@ -284,17 +312,12 @@ class CustomAppBarShape extends OutlinedBorder {
           Colors.yellowAccent,
           Colors.deepOrange
         ], // Customize your gradient colors
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
+        begin: Alignment.bottomLeft,
+        end: Alignment.topRight,
       ).createShader(rect);
 
     // Draw the gradient within the custom shape
     canvas.drawPath(getOuterPath(rect, textDirection: textDirection), paint);
-
-    // canvas.drawPath(
-    //   getOuterPath(rect, textDirection: textDirection),
-    //   side.toPaint(),
-    // );
   }
 
   @override

@@ -44,9 +44,12 @@ class MyCard extends StatelessWidget {
                   title ?? 'Untitled',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-                Text(datetime ?? '-- -- --'),
-                Text(address ?? 'Unknown Address'),
-                Text(name ?? 'Unnamed Person')
+                Text(datetime ?? '-- -- --',
+                    style: TextStyle(color: Colors.grey)),
+                Text(address ?? 'Unknown Address',
+                    style: TextStyle(color: Colors.grey)),
+                Text(name ?? 'Unnamed Person',
+                    style: TextStyle(color: Colors.grey))
               ],
             )
           ],
