@@ -2,15 +2,15 @@
 
 A new Flutter project.
 
-## Getting Started
+## Notes
 
-This project is a starting point for a Flutter application.
+Figma: https://www.figma.com/design/5p8hIajUDw3laQFK3H3Uie/App-Dev-Assignment-1---
+Spring-2024?node-id=0-1&t=D6yssML5pvracW1G-1
 
-A few resources to get you started if this is your first Flutter project:
+Your UI should closely follow the provided design on figma – you may use different images
+for the profile picture and events.
+• The app bar needs to be built in flutter, it can’t be an image.
+• Your design must have a single page, with the posts, comments, and stats sections being
+changed only according to what the user selects – the whole page must not be rebuilt.
+• The list of events and comments needs to be scrollable.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
